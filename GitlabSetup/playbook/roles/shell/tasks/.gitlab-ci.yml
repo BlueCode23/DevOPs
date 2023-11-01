@@ -1,6 +1,8 @@
-image: ubuntu:22.04
+image: bluecode23/devops_dockerfile-app:latest
+
 before_script:
-    - apt-get update -qq && apt-get install -y curl
+  - apt-get update -qq && apt-get install -y curl
+
 stages:
   - build
   - test
@@ -16,13 +18,13 @@ build_app:
   tags:
     - integration
   script:
-    # TODO: add the correct directory
+    # TODO: add the correct directory before running gradle
     - gradle clean
     - gradle build
-    # TODO: add the correct directory
-    - npm i package
+    # TODO: add the correct directory before running npm
+    - npm install
     - npm rebuild node-sass
-    - mkdir node_modules/node-sass/vendor
+    - mkdir -p node_modules/node-sass/vendor
 
 test_app:
   stage: test
@@ -39,3 +41,10 @@ deploy_app:
     - echo "$(pwd)"
     - gradle bootRun &
     - npm start
+
+deploy to production:
+  stage: deploy
+  script: make deploy
+  environment:
+    name: production
+    url: http://192.168.60.2/gitlab/root/project.git
