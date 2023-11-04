@@ -42,9 +42,3 @@ deploy_app:
     - gradle bootRun &
     - npm start
 
-deploy to production:
-  stage: deploy
-  script: make deploy
-  environment:
-    name: production
-    url: http://192.168.60.2/gitlab/root/project.git
