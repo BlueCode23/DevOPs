@@ -68,7 +68,7 @@
     "jwt-decode": "^3.1.2",
     "material-ui": "^0.20.2",
     "mdbreact": "^4.27.0",
-    "npm": "^5.8.0",
+    "npm": "^10.2.3",
     "react-admin": "^3.19.12",
     "react-bootstrap": "^1.6.7",
     "react-bootstrap-table2-filter": "^0.1.6",
