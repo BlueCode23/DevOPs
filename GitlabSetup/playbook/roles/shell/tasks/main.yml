@@ -46,6 +46,7 @@
     git config --global credential.helper store
     echo "http://root:aaaaaaaa@192.168.60.2" > ~/.git-credentials
     echo "bin" >> .gitignore
+    git add --chmod=+x ./scripts/*
     git add .
     git config --global user.name "vagrant"
     git commit -m "inital commit"
@@ -61,9 +62,7 @@
 - name: Get the runners token
   become: true
   shell: sudo gitlab-rails runner -e production "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token" > runner_token
-  
 - name: create the runner
   become: true
   shell: |
-     sudo gitlab-runner register --non-interactive --url "http://192.168.60.2/gitlab" -r "$(cat runner_token)" --description "docker" --tag-list "docker" --executor "docker" --docker-image "alpine:latest" --run-untagged="true"
-     sudo gitlab-runner restart
+     sudo gitlab-runner register --non-interactive --url "http://192.168.60.2/gitlab" -r "$(cat runner_token)" --description "docker" --tag-list "integration" --executor "docker" --docker-image "alpine:latest" --run-untagged="true"
