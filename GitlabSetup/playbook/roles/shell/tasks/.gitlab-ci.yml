@@ -11,18 +11,17 @@ stages:
 cache:
   paths:
     - lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev/build
-    - lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/node_modules
+    - lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/nodes_modules
 
 build_app:
   stage: build
   tags:
     - integration
   script:
-    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
-    - ls -la # Debug: List files to ensure gradlew is present and permissions are correct
-    - chmod +x gradlew || echo "Failed to make gradlew executable"
-    - ./gradlew clean --info
-    - ./gradlew build --refresh-dependencies
+    # TODO: add the correct directory before running gradle
+    - gradle clean
+    - gradle build
+    # TODO: add the correct directory before running npm
     - npm install
     - npm rebuild node-sass
     - mkdir -p node_modules/node-sass/vendor
@@ -32,17 +31,14 @@ test_app:
   tags:
     - integration
   script:
-    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
-    - chmod +x gradlew || echo "Failed to make gradlew executable"
-    - ./gradlew test --info || echo "Gradlew test failed"
+    - bash gradle_test_java.sh
 
 deploy_app:
   stage: deploy
   tags:
     - integration
   script:
-    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
-    - chmod +x gradlew || echo "Failed to make gradlew executable"
-    - ./gradlew bootRun --no-daemon || echo "Gradlew bootRun failed"
-    - cd lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev # Replace with your actual path to the npm project
-    - npm start || echo "NPM start failed"
+    - echo "$(pwd)"
+    - gradle bootRun &
+    - npm start
+
