@@ -111,32 +111,5 @@ Check the deployment Pipeline in a given state
 4. The pipeline should have been passed for all process expect release as the manual approve is needed
 
 
-
-
-
-
-
-Post conditions:
-- GitLab is accessible at the indicated URL
-- It asks to enter passwork for the root creedentials
-
-
-
-5- Set password for admin user
-
-5.1 Enter password (refered as $YOUR_PASSWORD later) for the root credentials.
-
-
-
-### **** Test Case ****
-
-Initial conditions: you have successfully entered a password for the root credentials
-
-Test Steps:
-
-1. Go to http://192.168.33.9/gitlab
-2. Log in using as user name "root" and password the one entered in the previous step.
-
-
-Post conditions:
-- You have successfully logged in as administrator
+Scenarios
+1. It will be a test Scenario auto bild in the pipline to process the test.
