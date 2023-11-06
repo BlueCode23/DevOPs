@@ -1,0 +1,60 @@
+# Scenario 1
+
+## Goal
+Creat a new account and add to current pipline
+
+
+## Pre-conditions
+- Gitlab is up and running
+- A user account different from root has been created
+
+
+## Main Success Scenario
+1. Log in to GitLab using a NO root account
+2. Create project and name it DevOpstest
+3. Follow the instructions to create the remote and local repositories as indicated by gitlab.
+4. Commit and push to the remote repository.
+
+
+## Notes
+- In GitLab a project is a repository.
+
+
+
+
+# Scenario 2
+
+## Goal
+The pipeline is successfully executed.
+
+
+## Pre-conditions
+- Up and Run gitlab & gitlab runner
+- Tag for docker runner is specified
+- Created project repository on gitlab
+
+
+## Main Success Scenario
+1. Clone created repository from gitlab
+2. Add `.gitlab-ci.yml` with following content
+
+```
+image: maven:latest
+
+stages:
+  - echo
+
+echo_app:
+  stage: echo
+  tags:
+    - docker
+  script:
+    - echo "It works!"
+```
+
+3. Push file to gitlab repository
+4. Go to project's pipelines and wait until the pipeline has finished its execution.
+
+
+## Notes
+- None.

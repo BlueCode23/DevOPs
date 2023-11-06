@@ -1,4 +1,7 @@
 # Versions Prerequised
+Please ref the readme.txt and scenarios.txt as requested
+
+
 ## Provided (no manual step required)
 * MySQL 		version 8.0.21
 * Java 			version 1.8
