@@ -1,0 +1,236 @@
+Index: GitlabSetup/playbook/roles/shell/tasks/.gitlab-ci.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>image: bluecode23/devops_dockerfile-app:latest\n\nbefore_script:\n  - apt-get update -qq && apt-get install -y curl\n\nstages:\n  - build\n  - test\n  - deploy\n\ncache:\n  paths:\n    - lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev/build\n    - lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/node_modules\n\nbuild_app:\n  stage: build\n  tags:\n    - integration\n  script:\n    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev\n    - ls -la # Debug: List files to ensure gradlew is present and permissions are correct\n    - chmod +x gradlew || echo \"Failed to make gradlew executable\"\n    - ./gradlew clean --info\n    - ./gradlew build --refresh-dependencies\n    - npm install\n    - npm rebuild node-sass\n    - mkdir -p node_modules/node-sass/vendor\n\ntest_app:\n  stage: test\n  tags:\n    - integration\n  script:\n    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev\n    - chmod +x gradlew || echo \"Failed to make gradlew executable\"\n    - ./gradlew test --info || echo \"Gradlew test failed\"\n\ndeploy_app:\n  stage: deploy\n  tags:\n    - integration\n  script:\n    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev\n    - chmod +x gradlew || echo \"Failed to make gradlew executable\"\n    - ./gradlew bootRun --no-daemon || echo \"Gradlew bootRun failed\"\n    - cd lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev # Replace with your actual path to the npm project\n    - npm start || echo \"NPM start failed\"
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GitlabSetup/playbook/roles/shell/tasks/.gitlab-ci.yml b/GitlabSetup/playbook/roles/shell/tasks/.gitlab-ci.yml
+--- a/GitlabSetup/playbook/roles/shell/tasks/.gitlab-ci.yml	(revision eda5665e6d8cedccec3c96e1a15e94449b22502b)
++++ b/GitlabSetup/playbook/roles/shell/tasks/.gitlab-ci.yml	(date 1699218665427)
+@@ -1,8 +1,5 @@
+ image: bluecode23/devops_dockerfile-app:latest
+ 
+-before_script:
+-  - apt-get update -qq && apt-get install -y curl
+-
+ stages:
+   - build
+   - test
+@@ -19,13 +16,12 @@
+     - integration
+   script:
+     - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
+-    - ls -la # Debug: List files to ensure gradlew is present and permissions are correct
++    - mkdir -p /builds/gitlab/root/project/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/node_modules
++    - cp -r /node_modules/* /builds/gitlab/root/project/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/node_modules
+     - chmod +x gradlew || echo "Failed to make gradlew executable"
+     - ./gradlew clean --info
+     - ./gradlew build --refresh-dependencies
+-    - npm install
+-    - npm rebuild node-sass
+-    - mkdir -p node_modules/node-sass/vendor
++
+ 
+ test_app:
+   stage: test
+@@ -36,6 +32,7 @@
+     - chmod +x gradlew || echo "Failed to make gradlew executable"
+     - ./gradlew test --info || echo "Gradlew test failed"
+ 
++
+ deploy_app:
+   stage: deploy
+   tags:
+@@ -43,6 +40,6 @@
+   script:
+     - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
+     - chmod +x gradlew || echo "Failed to make gradlew executable"
+-    - ./gradlew bootRun --no-daemon || echo "Gradlew bootRun failed"
+-    - cd lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev # Replace with your actual path to the npm project
+-    - npm start || echo "NPM start failed"
+\ No newline at end of file
++    - ./gradlew clean --info
++    - ./gradlew build --refresh-dependencies
++    - ./gradlew bootRun --no-daemon || echo "Gradlew bootRun failed"
+\ No newline at end of file
+Index: azure-pipelines.yml
+===================================================================
+diff --git a/azure-pipelines.yml b/azure-pipelines.yml
+deleted file mode 100644
+--- a/azure-pipelines.yml	(revision eda5665e6d8cedccec3c96e1a15e94449b22502b)
++++ /dev/null	(revision eda5665e6d8cedccec3c96e1a15e94449b22502b)
+@@ -1,21 +0,0 @@
+-# Node.js
+-# Build a general Node.js project with npm.
+-# Add steps that analyze code, save build artifacts, deploy, and more:
+-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+-
+-trigger:
+-- main
+-
+-pool:
+-  vmImage: ubuntu-latest
+-
+-steps:
+-- task: NodeTool@0
+-  inputs:
+-    versionSpec: '10.x'
+-  displayName: 'Install Node.js'
+-
+-- script: |
+-    npm install
+-    npm run build
+-  displayName: 'npm install and build'
+Index: readme.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/readme.txt b/readme.txt
+new file mode 100644
+--- /dev/null	(date 1699270235013)
++++ b/readme.txt	(date 1699270235013)
+@@ -0,0 +1,142 @@
++# CI/CD Cours Software Engineering Environments Uni Luxembourg.
++
++Filipe DA SILVA						ID 0181074922
++Eliott Bonte						ID 0170177457
++Guillaume Ballinger					ID 1190225555
++
++
++
++## Asset composition
++
++- a vagrant VM specification (i.e. Vagrant file)
++- Ansible playbooks to provision the VM
++- GitLab as VCS and CI running into the VM
++- Docker service running into the VM
++- Docker account and access
++- A Github account and access
++- Git is up and to latest version
++- integrated development environment (IDE), we are using PyCharm, or intellij. Other IDE could be used for example Visual Studio, depending on your experience.
++
++
++## Prerequisites
++
++### Hardware
++
++1. Laptop or home PC with at least 16 Gb memory or (ideally 32 Gb)
++
++
++### Software
++
++1. OS Ubuntu (v 22 lts	or higher)
++2. VirtualBox(v 7.0, or higher)
++3. Vagrant (v 2.3.7, or higher)
++4. Ansible (v 2.7.5, or higher)
++5. Git (v 2.4, or higher)
++
++
++## Guidelines impoprtant 2 options are avilbe to get the project running:
++
++1 Option:
++
++Form the zip code give in the project upload on moodle.
++
++Upload the project in your IDE.
++Do to your terminal and use command lines to setup the vagrant VM.
++Go in the working directory GitlabSetup with open terminal: cd GitlabSetup (you can you tap on your keyboard to full the test of you command lines)
++In the terminal: vagrant up
++The VM should be up.
++If not please contact us.
++
++2 Option:
++
++1- Get to the working directory
++All is saved online in Github:
++https://github.com/BlueCode23/DevOPs.git
++
++Repository is public you should have access to it if not please contact any member of the group e-mail address:
++First and Last Name	    and email address.
++Ballinger Guillaume	    guillaume.ballinger.001@student.uni.lu
++Bonte Eliott	        eliott.bonte.001@student.uni.lu
++DA SILVA Filipe 	    filipe.dasilva.001@student.uni.lu
++
++
++Note:
++•	Code produced by one team can be integrated with code produced by other teams.
++•	Code is the same during different stages of the project.
++
++2-	Open your IDE
++
++Open your IDE, and clone the code to your repository.
++In it IDE go Get form VCS and get the project with URL: https://github.com/BlueCode23/DevOPs.git
++Clone it in your IDE.
++
++If this is not possible we assume you are able to clone it manually form github.
++3-	How to run up the VM for the project
++
++Go in to IDE you should open a terminal you should be in the working directory DevOPs and you should go to the working directory: GitlabSetup
++•	Do do so type in your IDE terminal: cd GitlabSetup.
++
++You should be in working directory GitlabSetup.
++
++
++4-	Vagrant is used to create a VM which acts as integration server.
++
++•	In your IDE terminal put: vagrant up
++
++Everthing should be up and running
++
++
++5-	If you machine get error:
++
++•	Please add in your IDE terminal put: vagrant provision
++
++6-	If the issue persists, please contact us via email, we are happy to help.
++
++
++
++### **** Test Case to go to gitlab ****
++
++Initial conditions: your VM network is correclty setup to access the link (recommand network adapter is attached to Nat)
++
++Login Steps:
++1. Go to http://192.168.60.2/gitlab in your favorit web browser
++2. Please input user name: root
++3. Please input password:aaaaaaaa
++4. Sign in
++
++Check the deployment Pipeline in a given state
++1. Go to http://192.168.60.2/gitlab/root/project
++2. There are the repo of the project in gitlab
++3. Go to http://192.168.60.2/gitlab/root/project/-/pipelines
++4. The pipeline should have been passed for all process expect release as the manual approve is needed
++
++
++
++
++
++
++
++Post conditions:
++- GitLab is accessible at the indicated URL
++- It asks to enter passwork for the root creedentials
++
++
++
++5- Set password for admin user
++
++5.1 Enter password (refered as $YOUR_PASSWORD later) for the root credentials.
++
++
++
++### **** Test Case ****
++
++Initial conditions: you have successfully entered a password for the root credentials
++
++Test Steps:
++
++1. Go to http://192.168.33.9/gitlab
++2. Log in using as user name "root" and password the one entered in the previous step.
++
++
++Post conditions:
++- You have successfully logged in as administrator
