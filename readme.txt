@@ -27,7 +27,7 @@ Guillaume Ballinger					ID 1190225555
 
 ### Software
 
-1. OS Ubuntu (v 22 lts	or higher)
+1. OS Ubuntu (v 22.04 lts	or higher)
 2. VirtualBox(v 7.0, or higher)
 3. Vagrant (v 2.3.7, or higher)
 4. Ansible (v 2.7.5, or higher)
