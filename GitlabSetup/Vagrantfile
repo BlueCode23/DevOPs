@@ -1,88 +1,84 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+$init_script = <<-'SCRIPT'
+sudo apt-get update -y
+sudo apt-get install -y debconf-utils vim curl wget openjdk-8-jdk lsb-release unzip gnupg --allow-insecure-repositories
+export DEBIAN_FRONTEND="noninteractive";
+sudo debconf-set-selections <<< 'mysql-apt-config mysql-apt-config/select-server select mysql-8.0'
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.14-1_all.deb
+sudo -E dpkg -i mysql-apt-config_0.8.14-1_all.deb
+sudo apt-get update
+echo "Installing MySQL 8..."
+sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password root'
+sudo debconf-set-selections <<< 'myvsql-community-server mysql-community-server/root-pass password root'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+sudo -E apt-get -y install mysql-server --allow-unauthenticated
+echo "INSTALL JAVA..."
+sudo apt -y install openjdk-8-jdk
+java -version
+echo "INSTALL GRADLE..."
+wget -c https://services.gradle.org/distributions/gradle-6.7.1-bin.zip -P /tmp
+sudo unzip -d /opt/gradle /tmp/gradle-6.7.1-bin.zip
+echo 'export GRADLE_HOME=/opt/gradle/gradle-6.7.1' >> ~/.bashrc
+echo 'export PATH=${GRADLE_HOME}/bin:${PATH}' >> ~/.bashrc
+gradle --version
+mysql -u root -p"root" -e "CREATE DATABASE e4l;"
+# Update the root user password
+mysql -u root -p"root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '12345678';"
+sudo su
+export GRADLE_HOME=/opt/gradle/gradle-6.7.1
+export PATH=${GRADLE_HOME}/bin:${PATH}
+echo "INSTALL NPM..."
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+# Ensure NVM is available in non-interactive shell
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.profile
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.profile
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.bashrc
+perl -i -p0e 's/# If not running interactively,[^#]*//se' ~/.bashrc
+# Apply changes to the current shell session
+source ~/.bashrc
+nvm install v15.14.0
+nvm alias default v15.14.0
+nvm use default
+cp ~/.bashrc /home/vagrant/.bashrc
+cp -r ~/.nvm /home/vagrant/.nvm
+cp ~/.profile /home/vagrant/.profile
+SCRIPT
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
   config.vm.hostname = "integration-server"
-  
-  ENV['LC_ALL']="C.UTF-8"
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 8088, host: 8080
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 8088, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.60.2"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-   config.vm.provider "virtualbox" do |vb|
-	vb.customize [ "modifyvm", :id, "--uart1", "off" ]
-	vb.customize [ "modifyvm", :id, "--uart2", "off" ]
-	vb.customize [ "modifyvm", :id, "--uart3", "off" ]
-	vb.customize [ "modifyvm", :id, "--uart4", "off" ]
-  #   # Display the VirtualBox GUI when booting the machine
-   	  # vb.gui = true
-  
-     # Customize the amount of memory on the VM:
-        vb.memory = "8182"
-    	vb.cpus = 4
-   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.	
-  config.vm.synced_folder ".","/vagrant", disabled: true
-  
-  config.vm.provision "shell", inline: <<-SHELL
-     	sudo apt-get update
-     	sudo apt-get install --yes python
-     	# apt-get install -y default-jre
-  	# apt-get install -y apache2
-   	SHELL
-   
-  config.vm.provision "ansible" do |ansible|
-    	ansible.playbook = "./playbook/playbook.yml"
+  config.vm.define "production",  primary: true do |production|
+        production.vm.network "forwarded_port", guest: 8080, host: 8080
+        production.vm.network "forwarded_port", guest: 8081, host: 8081
+        production.vm.network "private_network", ip: "192.168.60.3"
+        production.vm.provision "shell", inline: $init_script , run: 'always'
   end
-   
-   
+
+  config.vm.define  "gitlab" do |gitlab|
+        gitlab.vm.network "private_network", ip: "192.168.60.2"
+        gitlab.vm.provision "ansible" do |ansible|
+                ansible.playbook = "./playbook/playbook.yml"
+        end
+        gitlab.vm.provision "shell", inline: <<-SHELL
+                sudo apt-get update
+                sudo apt-get install --yes python
+                apt-get install -y apache2
+                SHELL
+  end
+
+
+  ENV['LC_ALL']="C.UTF-8"
+  config.vm.provider "virtualbox" do |vb|
+        vb.customize [ "modifyvm", :id, "--uart1", "off" ]
+        vb.customize [ "modifyvm", :id, "--uart2", "off" ]
+        vb.customize [ "modifyvm", :id, "--uart3", "off" ]
+        vb.customize [ "modifyvm", :id, "--uart4", "off" ]
+        vb.memory = "8182"
+        vb.cpus = 4
+  end
+  config.vm.synced_folder ".","/vagrant", disabled: true
 end
