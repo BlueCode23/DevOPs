@@ -38,7 +38,6 @@ export GRADLE_HOME=/opt/gradle/gradle-6.7.1
 export PATH=${GRADLE_HOME}/bin:${PATH}
 gradle clean
 gradle build
-#does not work in manual or automated execution yet
 gradle bootRun &
 echo "end of script"
 SCRIPT
@@ -46,7 +45,7 @@ SCRIPT
 $frontend_script = <<-'SCRIPT'
 echo "CLONE THE PROJECT..."
 git clone https://github.com/BlueCode23/DevOPs
-echo "INSTALL NPM..."
+echo "INSTALL NVM..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # Ensure NVM is available in non-interactive shell
 echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.profile
