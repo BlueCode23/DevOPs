@@ -83,7 +83,7 @@ You should be in working directory GitlabSetup.
 
 •	In your IDE terminal put: vagrant up
 
-Everthing should be up and running
+Everything should be up and running
 
 
 5-	If your machine gets an error:
