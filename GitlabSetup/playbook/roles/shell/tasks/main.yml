@@ -46,7 +46,6 @@
     git config --global credential.helper store
     echo "http://root:aaaaaaaa@192.168.60.2" > ~/.git-credentials
     echo "bin" >> .gitignore
-    git add --chmod=+x ./scripts/*
     git add .
     git config --global user.name "vagrant"
     git commit -m "inital commit"
