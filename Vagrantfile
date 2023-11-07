@@ -45,7 +45,7 @@ SCRIPT
 $frontend_script = <<-'SCRIPT'
 echo "CLONE THE PROJECT..."
 git clone https://github.com/BlueCode23/DevOPs
-echo "INSTALL NVM..."
+echo "INSTALL NPM..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # Ensure NVM is available in non-interactive shell
 echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.profile
