@@ -33,29 +33,29 @@
 - name: Clone the repo
   shell: |
     git clone https://github.com/BlueCode23/DevOPs.git
-- name: Create the repository
+- name: Create the repository 1
   become: true
   shell: |
     mkdir project
-- name: Create the repository
+- name: Create the repository 2
   become: true
   shell: |
     rsync -a  DevOPs/ project/
-- name: Create the repository
+- name: Create the repository 3
   become: true
   shell: |    
     mv .gitlab-ci.yml project/.gitlab-ci.yml
-- name: Create the repository
+- name: Create the repository 4
   become: true
   shell: |    
     cd project
     rm -rf .git
     rm -rf .github
-- name: Create the repository
+- name: Create the repository 5
   become: true
   shell: |    
     git init
-- name: Create the repository
+- name: Create the repository 6
   become: true
   shell: |    
     git config --global credential.helper store
