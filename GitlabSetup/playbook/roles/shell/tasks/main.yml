@@ -37,19 +37,49 @@
   become: true
   shell: |
     mkdir project
+- name: Create the repository
+  become: true
+  shell: |
     rsync -a  DevOPs/ project/
+- name: Create the repository
+  become: true
+  shell: |    
     mv .gitlab-ci.yml project/.gitlab-ci.yml
+- name: Create the repository
+  become: true
+  shell: |    
     cd project
     rm -rf .git
     rm -rf .github
+- name: Create the repository
+  become: true
+  shell: |    
     git init
+- name: Create the repository
+  become: true
+  shell: |    
     git config --global credential.helper store
     echo "http://root:aaaaaaaa@192.168.60.2" > ~/.git-credentials
     echo "bin" >> .gitignore
+- name: Create the repository
+  become: true
+  shell: |    
     git add .
+- name: Create the repository
+  become: true
+  shell: |    
     git config --global user.name "vagrant"
+- name: Create the repository
+  become: true
+  shell: |    
     git commit -m "inital commit"
+- name: Create the repository
+  become: true
+  shell: |    
     git remote add origin http://192.168.60.2/gitlab/root/project.git
+- name: Create the repository
+  become: true
+  shell: |    
     git push origin master
 
 - name: Install gitrunner
