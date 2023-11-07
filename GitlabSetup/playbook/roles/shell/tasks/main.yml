@@ -54,6 +54,7 @@
 - name: Create the repository 5
   become: true
   shell: |
+    cd project
     git init
 - name: Create the repository 6
   become: true
@@ -64,11 +65,12 @@
 - name: Create the repository 7
   become: true
   shell: |
+    cd project
     git remote add origin http://192.168.60.2/gitlab/root/project.git
 - name: Create the repository 8
   become: true
   shell: |
-    pwd
+    cd project
     git add .
 - name: Create the repository 9
   become: true
@@ -78,10 +80,12 @@
 - name: Create the repository 10
   become: true
   shell: |
+    cd project
     git commit -m "inital commit"
 - name: Create the repository 11
   become: true
   shell: |
+    cd project
     git push -u origin master
 
 - name: Install gitrunner
