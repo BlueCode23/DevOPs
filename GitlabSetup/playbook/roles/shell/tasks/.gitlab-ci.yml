@@ -43,9 +43,9 @@ deploy_app:
   script:
     - chmod 600 .ssh/id_rsa
     - sed -i "s\\#API_URL=http://localhost:8080/e4lapi\API_URL=http://localhost:8080/e4lapi\g" lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/.env
-    - sed -i "s\API_URL=http://192.168.33.94:8080/e4lapi\\#API_URL=http://192.168.33.94:8080/e4lapi\g" lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/.env
-    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm install webpack-dev-server -g"    
+    - sed -i "s\API_URL=http://192.168.33.94:8080/e4lapi\\#API_URL=http://192.168.33.94:8080/e4lapi\g" lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev/.env  
     - scp -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa -r *  vagrant@192.168.60.3:/home/vagrant
-    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev; gradle bootRun &"
+    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev; nohup gradle bootRun > backend.log 2>&1 </dev/null &"
     - sleep 12s
-    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; echo "yes" | npm start"
+    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm i package;npm rebuild node-sass"
+    - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm start > frontend.log 2>&1 </dev/null &"
