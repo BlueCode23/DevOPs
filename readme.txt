@@ -34,7 +34,7 @@ Guillaume Ballinger					ID 1190225555
 5. Git (v 2.4, or higher)
 
 
-## Guidelines impoprtant 2 options are avilbe to get the project running:
+## Guidelines important 2 options are availabe to get the project running:
 
 1 Option:
 
@@ -86,9 +86,9 @@ You should be in working directory GitlabSetup.
 Everthing should be up and running
 
 
-5-	If you machine get error:
+5-	If your machine gets an error:
 
-•	Please add in your IDE terminal put: vagrant provision
+•	Please add input in your IDE´s terminal: vagrant provision
 
 6-	If the issue persists, please contact us via email, we are happy to help.
 
