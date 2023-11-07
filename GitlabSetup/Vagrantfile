@@ -52,7 +52,7 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFiEpj6Jf530QnpjEtECcQ0uMWGv/Okbb1Vi
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-22.04"
+  config.vm.box = ""ubuntu/xenial64"
 
   config.vm.define "production",  primary: true do |production|
         production.vm.network "forwarded_port", guest: 8080, host: 8080
