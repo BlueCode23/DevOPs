@@ -47,40 +47,42 @@
     mv .gitlab-ci.yml project/.gitlab-ci.yml
 - name: Create the repository 4
   become: true
-  shell: |    
+  shell: |
     cd project
     rm -rf .git
     rm -rf .github
 - name: Create the repository 5
   become: true
-  shell: |    
+  shell: |
     git init
 - name: Create the repository 6
   become: true
-  shell: |    
+  shell: |
     git config --global credential.helper store
     echo "http://root:aaaaaaaa@192.168.60.2" > ~/.git-credentials
     echo "bin" >> .gitignore
-- name: Create the repository
+- name: Create the repository 7
   become: true
-  shell: |    
-    git add .
-- name: Create the repository
-  become: true
-  shell: |    
-    git config --global user.name "vagrant"
-- name: Create the repository
-  become: true
-  shell: |    
-    git commit -m "inital commit"
-- name: Create the repository
-  become: true
-  shell: |    
+  shell: |
     git remote add origin http://192.168.60.2/gitlab/root/project.git
-- name: Create the repository
+- name: Create the repository 8
   become: true
-  shell: |    
-    git push origin master
+  shell: |
+    pwd
+    git add .
+- name: Create the repository 9
+  become: true
+  shell: |
+    git config --global user.name "vagrant"
+    git config --global user.email "admin@example.com"
+- name: Create the repository 10
+  become: true
+  shell: |
+    git commit -m "inital commit"
+- name: Create the repository 11
+  become: true
+  shell: |
+    git push -u origin master
 
 - name: Install gitrunner
   become: true
