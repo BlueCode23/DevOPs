@@ -45,14 +45,14 @@ nvm use default
 cp ~/.bashrc /home/vagrant/.bashrc
 cp -r ~/.nvm /home/vagrant/.nvm
 cp ~/.profile /home/vagrant/.profile
+sudo chown -R vagrant:vagrant /home/vagrant/.nvm/
 mkdir /home/vagrant/.ssh
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFiEpj6Jf530QnpjEtECcQ0uMWGv/Okbb1VilWTUd9R5Ng+5S4DJcLjojgrQ0mBphWfSbC8hlHzPsZBsB4/EqaV0xcRq7jBwG+gjopxS5WGqUAoAQmtb1bUOSLHWeSIuYhb9jl39awauHeqzAFmxEZFuILOOw+uM97I5l6Q5DFQriXsj++jc0ofnPRYdrSU6/It6bqt5UcR4Qa3Eruee7cLl3G9K/Cd+hsZTZHEkpSnQQwoRFhRxU45nDE5RNG0Qi3uqnN0gVJs+JuEX/h16/pczmdvqwDgSXVhG+xVs6AkuceCZInUKkyQzT4h1izZGGxNr7AcCye389DPzSpa6BTlw3Pc+I1pzFEx/CVnTCtpSKdtQ79WaTqMZhWPk1F8wAl4RZCEeKsvtPkU6kQEGjo9A1B1tjY3qZtx6vSqeHibWDLTTDeqcWjXA+gYwNzLI9JllADYSq4ijeyLbl4fvBc7nK1I126Exe+qUgFBpDoZywa+47SiAfO3f1VIOzIvks+njfwx8O8jnyq/uACC4LJ77hX3P02SXNuw1T6jbqYbuvFpIAudFI8k8H8CVPDk/MMY6xLlqeQWCJcxNkkD/8pwdYr0NawFn/D5veTGIxT4NT6RPjyQdTVGtjKiqk2/ZrQSxiE7JfE3lrbfoCbNQEBJfVMAFv8FGAFO9rEEr4NTQ== vagrant@integration-server" >> /home/vagrant/.ssh/authorized_keys
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFiEpj6Jf530QnpjEtECcQ0uMWGv/Okbb1VilWTUd9R5Ng+5S4DJcLjojgrQ0mBphWfSbC8hlHzPsZBsB4/EqaV0xcRq7jBwG+gjopxS5WGqUAoAQmtb1bUOSLHWeSIuYhb9jl39awauHeqzAFmxEZFuILOOw+uM97I5l6Q5DFQriXsj++jc0ofnPRYdrSU6/It6bqt5UcR4Qa3Eruee7cLl3G9K/Cd+hsZTZHEkpSnQQwoRFhRxU45nDE5RNG0Qi3uqnN0gVJs+JuEX/h16/pczmdvqwDgSXVhG+xVs6AkuceCZInUKkyQzT4h1izZGGxNr7AcCye389DPzSpa6BTlw3Pc+I1pzFEx/CVnTCtpSKdtQ79WaTqMZhWPk1F8wAl4RZCEeKsvtPkU6kQEGjo9A1B1tjY3qZtx6vSqeHibWDLTTDeqcWjXA+gYwNzLI9JllADYSq4ijeyLbl4fvBc7nK1I126Exe+qUgFBpDoZywa+47SiAfO3f1VIOzIvks+njfwx8O8jnyq/uACC4LJ77hX3P02SXNuw1T6jbqYbuvFpIAudFI8k8H8CVPDk/MMY6xLlqeQWCJcxNkkD/8pwdYr0NawFn/D5veTGIxT4NT6RPjyQdTVGtjKiqk2/ZrQSxiE7JfE3lrbfoCbNQEBJfVMAFv8FGAFO9rEEr4NTQ== vagrant@integration-server" >> /home/vagrant/.ssh/id_rsa.pub
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
-  config.vm.hostname = "integration-server"
+  config.vm.box = "bento/ubuntu-22.04"
 
   config.vm.define "production",  primary: true do |production|
         production.vm.network "forwarded_port", guest: 8080, host: 8080
