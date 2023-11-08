@@ -7,6 +7,7 @@ stages:
   - build
   - test
   - deploy
+  - release
 
 cache:
   paths:
@@ -49,3 +50,13 @@ deploy_app:
     - sleep 12s
     - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm i package;npm rebuild node-sass"
     - ssh -o StrictHostKeyChecking=no -o ForwardAgent=no -i .ssh/id_rsa vagrant@192.168.60.3 "cd /home/vagrant/lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm start > frontend.log 2>&1 </dev/null &"
+
+release_app:
+  stage: release
+  tags:
+    - integration
+  when: manual # job should only be run manually
+  script:
+    # In real file we would set go do release server as due to do lack of time it is not possilbe to create one.
+    - echo "Releasing the application"
+    - curl http://192.168.60.2/gitlab/
