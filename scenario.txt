@@ -31,7 +31,6 @@ The pipeline is successfully executed by add a new test to the pipeline, the foc
 
 ## Pre-conditions
 - Up and Run gitlab & gitlab runner
-- Tag for docker runner is specified
 - Created project repository on gitlab
 
 
