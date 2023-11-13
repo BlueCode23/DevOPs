@@ -1,31 +1,34 @@
 # Scenario 1
 
 ## Goal
-Creat a new account and add to current pipline
-
+To show that you need manually to approve the release
 
 ## Pre-conditions
 - Gitlab is up and running
-- A user account different from root has been created
+- A user account different from root has been created and approved by admin.
 
 
 ## Main Success Scenario
 1. Log in to GitLab using a NO root account
 2. Create project and name it DevOpstest
 3. Follow the instructions to create the remote and local repositories as indicated by gitlab.
-4. Commit and push to the remote repository.
+4. Commit and push to the remote repository from github to gitlab.
+5. Go in the pipeline and press the button for the release.
+6. User should understand that he can only release when he/she manually approved the pipeline.
 
 
-## Notes
-- In GitLab a project is a repository.
+## Conclusion
+- It show that the pipeline is scalable and other team can have access to it and approve the release.
 
-
+## Note
+- It can also be check with the root account, which is already setup.
 
 
 # Scenario 2
 
 ## Goal
-The pipeline is successfully executed.
+The pipeline is successfully executed by adding a simple test to get version of npm.
+By a simple update in the gitlab-ci.yml and the pipeline will still running.
 
 
 ## Pre-conditions
@@ -39,22 +42,18 @@ The pipeline is successfully executed.
 2. Add `.gitlab-ci.yml` with following content
 
 ```
-image: maven:latest
-
-stages:
-  - echo
-
-echo_app:
-  stage: echo
+test_app_v2:
+  stage: test
   tags:
-    - docker
+    - integration
   script:
-    - echo "It works!"
+    - npm version
+    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
+    - ls -al
 ```
 
 3. Push file to gitlab repository
 4. Go to project's pipelines and wait until the pipeline has finished its execution.
 
-
 ## Notes
-- None.
+The pipeline can be extended
