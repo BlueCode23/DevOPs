@@ -6,18 +6,20 @@ Creat a new account and add to current pipline
 
 ## Pre-conditions
 - Gitlab is up and running
-- A user account different from root has been created
+- A user account different from root has been created and approved by admin.
 
 
 ## Main Success Scenario
 1. Log in to GitLab using a NO root account
 2. Create project and name it DevOpstest
 3. Follow the instructions to create the remote and local repositories as indicated by gitlab.
-4. Commit and push to the remote repository.
+4. Commit and push to the remote repository from github to gitlab.
+5. User should understand that he can only release when he manually approve the pipeline.
 
 
-## Notes
-- In GitLab a project is a repository.
+## Conclusion
+- It show that the pipeline is scalable and other team can have access to it.
+
 
 
 
@@ -25,7 +27,7 @@ Creat a new account and add to current pipline
 # Scenario 2
 
 ## Goal
-The pipeline is successfully executed.
+The pipeline is successfully executed by adding a simple crul test.
 
 
 ## Pre-conditions
@@ -39,17 +41,7 @@ The pipeline is successfully executed.
 2. Add `.gitlab-ci.yml` with following content
 
 ```
-image: maven:latest
 
-stages:
-  - echo
-
-echo_app:
-  stage: echo
-  tags:
-    - docker
-  script:
-    - echo "It works!"
 ```
 
 3. Push file to gitlab repository
@@ -57,4 +49,3 @@ echo_app:
 
 
 ## Notes
-- None.
