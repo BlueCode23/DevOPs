@@ -1,7 +1,7 @@
 # Scenario 1
 
 ## Goal
-Creat a new account and add to current pipline
+Is to show that user need the release manually the pipeline
 
 
 ## Pre-conditions
@@ -14,18 +14,19 @@ Creat a new account and add to current pipline
 2. Create project and name it DevOpstest
 3. Follow the instructions to create the remote and local repositories as indicated by gitlab.
 4. Commit and push to the remote repository.
+5. Go to the pipeline in gitlab and press to the button to release it.
 
 
 ## Notes
 - In GitLab a project is a repository.
-
+- Option of manual release can be done as well by the root account (which is already running), it is your decision.
 
 
 
 # Scenario 2
 
 ## Goal
-The pipeline is successfully executed.
+The pipeline is successfully executed by add a new test to the pipeline, the focus is on the add of the of a new stage to test.
 
 
 ## Pre-conditions
@@ -39,17 +40,14 @@ The pipeline is successfully executed.
 2. Add `.gitlab-ci.yml` with following content
 
 ```
-image: maven:latest
-
-stages:
-  - echo
-
-echo_app:
-  stage: echo
+test_app_v2:
+  stage: test
   tags:
-    - docker
+    - integration
   script:
-    - echo "It works!"
+    - npm version
+    - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
+    - ls -al
 ```
 
 3. Push file to gitlab repository
@@ -57,4 +55,4 @@ echo_app:
 
 
 ## Notes
-- None.
+- You see a new test_app_v2 on the stage test and the pipeline should run.
