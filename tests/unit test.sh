@@ -1,7 +1,9 @@
-#Unit test : call the isNumber class, this class is part of the backend code
+#!/bin/bash
+
+# Unit test: call the isNumber class, this class is part of the backend code
 
 unit_test() {
-    local result=$(java isNumber("$1"))
+    local result=$(java isNumber "$1")
     if [[ $result == "true" ]]; then
         echo "Unit test successful"
         return 0
