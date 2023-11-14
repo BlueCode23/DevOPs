@@ -28,14 +28,34 @@ build_app:
     - npm rebuild node-sass
     - mkdir -p node_modules/node-sass/vendor
 
-test_app:
+
+unit_test:
   stage: test
   tags:
     - integration
   script:
     - cd lu.uni.e4l.platform.api.dev/lu.uni.e4l.platform.api.dev
     - chmod +x gradlew || echo "Failed to make gradlew executable"
-    - ./gradlew test --info || echo "Gradlew test failed"
+    - ./gradlew :test --tests "lu.uni.e4l.platform.service.UnitTest.testIsNumber"
+
+
+integration_test:
+  stage: test
+  tags:
+    - integration
+  script:
+    - echo "TODO"
+
+
+acceptance_test:
+  stage: test
+  tags:
+    - integration
+  script:
+    - echo "TODO"
+
+
+
 
 deploy_app:
   stage: deploy
