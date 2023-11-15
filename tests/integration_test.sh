@@ -1,1 +1,1 @@
-mysql -- version
+mysql -V
