@@ -23,15 +23,15 @@ Guillaume Ballinger					ID 1190225555
 ### Hardware
 
 1. Laptop or home PC with at least 16 Gb memory or (ideally 32 Gb)
-
+2. An active internet connection !!!
 
 ### Software
 
-1. OS Ubuntu (v 22.04 lts	or higher)
-2. VirtualBox(v 7.0, or higher)
-3. Vagrant (v 2.3.7, or higher)
-4. Ansible (v 2.7.5, or higher)
-5. Git (v 2.4, or higher)
+1. OS Ubuntu (v 22.04 lts)
+2. VirtualBox(v 7.0)
+3. Vagrant (v 2.3.7)
+4. Ansible (v 2.7.5)
+
 
 
 ## Guidelines important 2 options are availabe to get the project running:
@@ -39,19 +39,14 @@ Guillaume Ballinger					ID 1190225555
 1 Option:
 
 Form the zip code give in the project upload on moodle.
+Open your terminal
 
-Upload the project in your IDE.
-Do to your terminal and use command lines to setup the vagrant VM.
-Go in the working directory GitlabSetup with open terminal: cd GitlabSetup (you can you tap on your keyboard to full the test of you command lines)
-In the terminal: vagrant up
-The VM should be up.
-If not please contact us.
 
 2 Option:
 
-1- Get to the working directory
-All is saved online in Github:
-https://github.com/BlueCode23/DevOPs.git
+clone the repository with:
+git clone https://github.com/BlueCode23/DevOPs.git
+
 
 Repository is public you should have access to it if not please contact any member of the group e-mail address:
 First and Last Name	    and email address.
@@ -59,38 +54,48 @@ Ballinger Guillaume	    guillaume.ballinger.001@student.uni.lu
 Bonte Eliott	        eliott.bonte.001@student.uni.lu
 DA SILVA Filipe 	    filipe.dasilva.001@student.uni.lu
 
+## Run the project
 
-Note:
-•	Code produced by one team can be integrated with code produced by other teams.
-•	Code is the same during different stages of the project.
+`cd DevOPs`
+### Run the CI + production server
+(inside of the DevOPs folder)
+````sh
+cd GitlabSetup
+vagrant up
+````
 
-2-	Open your IDE
+### Run the development server
+(inside of the DevOPs folder)
+````sh
+vagrant up
+````
 
-Open your IDE, and clone the code to your repository.
-In it IDE go Get form VCS and get the project with URL: https://github.com/BlueCode23/DevOPs.git
-Clone it in your IDE.
+### Troubleshooting:
+#### The production server doesn't work
+(inside of the GitlabSetup folder)
+````
+vagrant destroy production
+vagrant up production
+````
 
-If this is not possible we assume you are able to clone it manually form github.
-3-	How to run up the VM for the project
+#### The gitlab CI doesn't work
+(inside of the GitlabSetup folder)
+````
+vagrant destroy gitlab
+vagrant up gitlab
+````
 
-Go in to IDE you should open a terminal you should be in the working directory DevOPs and you should go to the working directory: GitlabSetup
-•	Do do so type in your IDE terminal: cd GitlabSetup.
-
-You should be in working directory GitlabSetup.
-
-
-4-	Vagrant is used to create a VM which acts as integration server.
-
-•	In your IDE terminal put: vagrant up
-
-Everything should be up and running
+#### The dev environement isn't working
+(inside of the DevOPs folder)
+````
+vagrant destroy
+vagrant up
+````
+Note enter yes for the backend and the frontend.
+Do not reprovision a machine that is up. Destroy it and recreate it from the start.
 
 
-5-	If your machine gets an error:
-
-•	Please add input in your IDE´s terminal: vagrant provision
-
-6-	If the issue persists, please contact us via email, we are happy to help.
+If any issue persists, please contact us via email, we are happy to help.
 
 
 
@@ -113,3 +118,47 @@ Check the deployment Pipeline in a given state
 
 Scenarios
 1. It will be a test Scenario auto bild in the pipline to process the test.
+
+
+# How to access E4L
+
+Once vagrant up has been called and finished it's process you can access E4L.
+In production:
+http://localhost:8081
+In devloppement:
+http://localhost:8080
+
+Note if these two ports are already allocated you will have to increment the port. This works up to port 8085
+but only one is allocated.
+
+
+# Summary of the actions that have been done:
+## Reproduce Dev, Stage, and Prod environments
+This can be done with the 2 commands above
+## Product setup on Development environment
+Automatised with vagrant up
+## CI/CD server including pipeline for product
+This is in the gitlabSetup also done automatically through vagrant up
+## Product  setup on Staging/Production environment
+This step is done inside of the CI server where after all the test passes the CI deploys to the production VM
+## Test cases in Staging Environment (2 points)
+3 test cases have been done:
+* Unit tests (added junit test named UnitTest next to the other test)
+* Acceptance test (can be found inside test as a shell script)
+* Integration test ( can be found inside test as a shell script)
+## Scenarios in Production Environment
+Check the scenario.txt file for this
+## Dev environment setup
+vagrant up on the DevOPs folder
+## Product setup on Dev environment
+vagrant up on the DevOPs folder
+## Staging/Production servers
+vagrant up on the Gitlab folder
+## CI/CD server including pipeline for product (5 points)
+vagrant up on the Gitlab folder. Verify it on http://192.168.60.2/gitlab/root/project then go on jobs
+and this should be visible
+## Test cases in Staging environment (4 points)
+* Unit tests (added junit test named UnitTest next to the other test)
+* Acceptance test (can be found inside test as a shell script)
+* Integration test ( can be found inside test as a shell script)
+Automatised during the pipeline as 3 proper jobs
