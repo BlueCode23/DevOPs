@@ -44,17 +44,17 @@ integration_test:
   tags:
     - integration
   script:
-    - echo "TODO"
-
-
+    - cd tests
+    - bash integration_test.sh
 acceptance_test:
   stage: test
   tags:
     - integration
   script:
-    - echo "TODO"
-
-
+    - cd lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm start > frontend.log 2>&1 </dev/null &
+    - npm install
+    - cd ../../tests
+    - bash acceptance_test.sh
 
 
 deploy_app:
