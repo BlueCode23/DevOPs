@@ -52,7 +52,7 @@ acceptance_test:
     - integration
   script:
     - cd lu.uni.e4l.platform.frontend.dev/lu.uni.e4l.platform.frontend.dev; npm start > frontend.log 2>&1 </dev/null &
-    - npm install
+    - npm install -g artillery@1.7.9
     - cd ../../tests
     - bash acceptance_test.sh
 
