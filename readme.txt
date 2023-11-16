@@ -133,6 +133,7 @@ but only one is allocated.
 
 
 # Summary of the actions that have been done:
+
 ## Reproduce Dev, Stage, and Prod environments
 This can be done with the 2 commands above
 ## Product setup on Development environment
@@ -144,7 +145,7 @@ This step is done inside of the CI server where after all the test passes the CI
 ## Test cases in Staging Environment (2 points)
 3 test cases have been done:
 * Unit tests (added junit test named UnitTest next to the other test)
-* Acceptance test (can be found inside test as a shell script)
+* Acceptance test using artillery (can be found inside test as a shell script)
 * Integration test ( can be found inside test as a shell script)
 ## Scenarios in Production Environment
 Check the scenario.txt file for this
